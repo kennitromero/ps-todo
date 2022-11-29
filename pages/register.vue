@@ -11,9 +11,9 @@
           <input type="text"
                  id="full_name"
                  name="full_name"
-                 placeholder="Ingres su nombre completo"
-                 v-model="fullName"
+                 placeholder="Ingrese su nombre completo"
                  class="form-control"
+                 v-model="fullName"
           >
         </div>
 
@@ -23,8 +23,8 @@
                  id="email"
                  name="email"
                  placeholder="Ingrese su correo electrónico"
-                 v-model="email"
                  class="form-control"
+                 v-model="email"
           >
         </div>
 
@@ -37,8 +37,8 @@
                    name="password"
                    ref="password"
                    placeholder="Ingrese contraseña"
-                   v-model="password"
                    class="form-control"
+                   v-model="password"
             >
             <button type="button" v-on:click="showPassword()" class="btn btn-sm btn-secondary">
               <span v-if="shownPasswords">Ocultar</span>
@@ -49,22 +49,25 @@
         </div>
 
         <div class="mt-3 mb-3">
-          <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
+          <label for="confirm_password"
+                 class="form-label">Confirmar Contraseña</label>
           <input type="password"
                  id="confirm_password"
                  name="confirm_password"
                  ref="confirm_password"
                  placeholder="De nuevo contraseña"
-                 v-model="confirmPassword"
                  class="form-control"
+                 v-model="confirmPassword"
           >
-          <div id="emailHelp" class="form-text" v-if="password !== confirmPassword && confirmPassword !== ''">
+          <div class="form-text"
+               v-if="password !== confirmPassword && confirmPassword !== ''">
             Las contraseñas no coinciden.
           </div>
         </div>
 
         <div class="text-center mb-3">
-          <button type="submit" class="btn btn-primary" v-bind:disabled="password !== confirmPassword">
+          <button type="submit" class="btn btn-primary"
+                  v-bind:disabled="password !== confirmPassword">
             <i class="bi bi-person-up"></i>
             Registrarme
           </button>
@@ -122,8 +125,31 @@ export default {
       this.$refs.password.type = 'password'
       this.$refs.confirm_password.type = 'password'
     },
-    registerUser() {
-      alert('Genial, te has registrado en nuestra APP')
+    async registerUser() {
+
+      const payload = {
+        full_name: this.fullName,
+        email: this.email,
+        password: this.password,
+        confirm_password: this.confirmPassword
+      }
+
+      try {
+        const response = await this.$axios.post('/api/1.0/todo/users/register', payload)
+        if (response.status === 200) {
+          this.registerSuccess = true
+          alert('Hola ' + this.fullName + ' te vas a registrar con el correo ' + this.email)
+        }
+      } catch (err) {
+        if (err.response.status === 400) {
+          this.modelErrors = err.response.data.errors
+          return
+        }
+
+        if (err.response.status === 500) {
+          alert('El backend se jodio, detalle:')
+        }
+      }
     }
   }
 }
