@@ -1,8 +1,10 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-6 col-xs-12 mt-3">
+      <h3 class="text-center">
+        Crea tu cuenta aquí!
+      </h3>
 
-      <h3 class="text-center">Crea tu cuenta aquí!</h3>
 
       <form action="#" v-on:submit.prevent="registerUser" autocomplete="off">
 
@@ -126,7 +128,6 @@ export default {
       this.$refs.confirm_password.type = 'password'
     },
     async registerUser() {
-
       const payload = {
         full_name: this.fullName,
         email: this.email,
@@ -134,11 +135,14 @@ export default {
         confirm_password: this.confirmPassword
       }
 
+      this.registerSuccess = false
+      this.registerDanger = false
+      this.modelErrors = []
+
       try {
         const response = await this.$axios.post('/api/1.0/todo/users/register', payload)
         if (response.status === 200) {
           this.registerSuccess = true
-          alert('Hola ' + this.fullName + ' te vas a registrar con el correo ' + this.email)
         }
       } catch (err) {
         if (err.response.status === 400) {
@@ -147,7 +151,7 @@ export default {
         }
 
         if (err.response.status === 500) {
-          alert('El backend se jodio, detalle:')
+          this.registerDanger = true
         }
       }
     }
