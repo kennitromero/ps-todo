@@ -8,12 +8,12 @@
       <form action="#" v-on:submit.prevent="loginUser" autocomplete="off">
 
         <div class="mb-3">
-          <label for="email" class="form-label">Correo Electrónico</label>
-          <input type="email"
-                 id="email"
-                 placeholder="Ingrese su correo electrónico"
+          <label for="username" class="form-label">Nombre de usuario</label>
+          <input type="text"
+                 id="username"
+                 placeholder="Ingrese el usuario"
                  class="form-control"
-                 v-model="email"
+                 v-model="username"
           >
         </div>
 
@@ -43,10 +43,8 @@
           Ohh hay una falla en el sistema, inténtalo nuevamente.
         </div>
 
-        <div class="alert alert-warning" v-if="modelErrors.length > 0">
-          <ul class="mb-0">
-            <li v-for="e in modelErrors" class="mb-0">{{ e.detail }}</li>
-          </ul>
+        <div class="alert alert-warning" v-if="modelErrors != null">
+          {{ modelErrors }}
         </div>
 
       </form>
@@ -59,38 +57,39 @@
 export default {
   data() {
     return {
-      email: null,
+      username: null,
       password: null,
 
       loginSuccess: false,
       loginDanger: false,
-      modelErrors: []
+      modelErrors: null
     }
   },
   methods: {
     async loginUser() {
       const payload = {
-        email: this.email,
+        username: this.username,
         password: this.password
       }
 
-      this.modelErrors = []
+      this.modelErrors = null
       this.loginSuccess = false
       this.loginDanger = false
 
       try {
-        const response = await this.$axios.post('/api/1.0/todo/users/login', payload)
+        const response = await this.$axios.post('/auth/login', payload)
         if (response.status === 200) {
           this.loginSuccess = true
         }
       } catch (err) {
         if (err.response.status === 400) {
-          this.modelErrors = err.response.data.errors
+          this.modelErrors = err.response.data.message
+          console.log(err.response)
           return
         }
 
         if (err.response.status === 401) {
-          this.modelErrors = err.response.data.errors
+          this.modelErrors = err.response.data.message
           return
         }
 

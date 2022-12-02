@@ -9,13 +9,24 @@
       <form action="#" v-on:submit.prevent="registerUser" autocomplete="off">
 
         <div class="mb-3">
-          <label for="full_name" class="form-label">Nombre completo</label>
+          <label for="last_name" class="form-label">Nombre </label>
           <input type="text"
-                 id="full_name"
-                 name="full_name"
-                 placeholder="Ingrese su nombre completo"
+                 id="last_name"
+                 name="last_name"
+                 placeholder="Ingrese su nombre"
                  class="form-control"
-                 v-model="fullName"
+                 v-model="lastName"
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="first_name" class="form-label">Apellido </label>
+          <input type="text"
+                 id="first_name"
+                 name="first_name"
+                 placeholder="Ingrese su apellido"
+                 class="form-control"
+                 v-model="firstName"
           >
         </div>
 
@@ -27,6 +38,17 @@
                  placeholder="Ingrese su correo electrónico"
                  class="form-control"
                  v-model="email"
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="user_name" class="form-label">Nombre de usuario</label>
+          <input type="text"
+                 id="user_name"
+                 name="user_name"
+                 placeholder="Ingrese nombre de usuario"
+                 class="form-control"
+                 v-model="username"
           >
         </div>
 
@@ -104,8 +126,10 @@ export default {
     return {
       shownPasswords: false,
 
-      fullName: null,
+      firstName: null,
+      lastName: null,
       email: null,
+      username: null,
       password: null,
       confirmPassword: null,
 
@@ -129,8 +153,10 @@ export default {
     },
     async registerUser() {
       const payload = {
-        full_name: this.fullName,
+        firstName: this.firstName,
         email: this.email,
+        lastName: this.lastName,
+        username: this.username,
         password: this.password,
         confirm_password: this.confirmPassword
       }
@@ -140,7 +166,7 @@ export default {
       this.modelErrors = []
 
       try {
-        const response = await this.$axios.post('/api/1.0/todo/users/register', payload)
+        const response = await this.$axios.post('/users/add', payload)
         if (response.status === 200) {
           this.registerSuccess = true
         }
