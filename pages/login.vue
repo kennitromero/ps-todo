@@ -54,11 +54,13 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
   data() {
     return {
-      username: null,
-      password: null,
+      username: 'kminchelle',
+      password: '0lelplR',
 
       loginSuccess: false,
       loginDanger: false,
@@ -66,6 +68,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['loginUserAction']),
     async loginUser() {
       const payload = {
         username: this.username,
@@ -76,27 +79,8 @@ export default {
       this.loginSuccess = false
       this.loginDanger = false
 
-      try {
-        const response = await this.$axios.post('/auth/login', payload)
-        if (response.status === 200) {
-          this.loginSuccess = true
-        }
-      } catch (err) {
-        if (err.response.status === 400) {
-          this.modelErrors = err.response.data.message
-          console.log(err.response)
-          return
-        }
-
-        if (err.response.status === 401) {
-          this.modelErrors = err.response.data.message
-          return
-        }
-
-        if (err.response.status === 500) {
-          this.loginDanger = true
-        }
-      }
+      const response = await this.loginUserAction(payload)
+      console.log(response)
     }
   }
 }
