@@ -84,6 +84,9 @@ export default {
 
       if (response === 'OK') {
         this.loginSuccess = true
+        setTimeout(_ => {
+          this.$router.push('/profile')
+        }, 2000)
       }
 
       if (response === 'INVALID_CREDENTIALS') {
