@@ -35,18 +35,17 @@
 
         <!-- Mensajes de retroalimentación -->
 
-        <div class="alert alert-success" v-if="loginSuccess">
+        <div class="alert alert-success mt-3" v-if="loginSuccess">
           Te has logueado exitosamente.
         </div>
 
-        <div class="alert alert-danger" v-if="loginDanger">
+        <div class="alert alert-warning mt-3" v-if="loginWarning">
+          Las credenciales son incorrectas.
+        </div>
+
+        <div class="alert alert-danger mt-3" v-if="loginDanger">
           Ohh hay una falla en el sistema, inténtalo nuevamente.
         </div>
-
-        <div class="alert alert-warning" v-if="modelErrors != null">
-          {{ modelErrors }}
-        </div>
-
       </form>
 
     </div>
@@ -62,9 +61,11 @@ export default {
       username: 'kminchelle',
       password: '0lelplR',
 
+      message: null,
+
       loginSuccess: false,
+      loginWarning: false,
       loginDanger: false,
-      modelErrors: null
     }
   },
   methods: {
@@ -75,12 +76,23 @@ export default {
         password: this.password
       }
 
-      this.modelErrors = null
       this.loginSuccess = false
+      this.loginWarning = false
       this.loginDanger = false
 
       const response = await this.loginUserAction(payload)
-      console.log(response)
+
+      if (response === 'OK') {
+        this.loginSuccess = true
+      }
+
+      if (response === 'INVALID_CREDENTIALS') {
+        this.loginWarning = true
+      }
+
+      if (response === 'ERROR') {
+        this.loginDanger = true
+      }
     }
   }
 }

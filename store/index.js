@@ -13,7 +13,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-    serUserLogged(state, currentUser) {
+    setUserLogged(state, currentUser) {
         state.user = currentUser
     }
 }
@@ -24,7 +24,7 @@ export const actions = {
             const response = await this.$axios.post('/auth/login', payload)
             context.commit('setUserLogged', response.data)
 
-            return 'OK'
+            return 'ERROR'
         } catch (err) {
             if (err.response.status === 400) {
                 return 'INVALID_CREDENTIALS'
