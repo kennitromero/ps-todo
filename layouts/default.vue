@@ -1,17 +1,16 @@
 <template>
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <b-navbar toggleable="lg" type="light" variant="light">
       <nuxt-link class="navbar-brand" to="/">
         App ToDo
       </nuxt-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <nuxt-link class="nav-link" to="/">Inicio <span class="sr-only">(current)</span></nuxt-link>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <li>
+            <nuxt-link class="nav-link" to="/">Inicio</nuxt-link>
           </li>
 
           <li class="nav-item" v-if="! isLoggedUser">
@@ -21,18 +20,21 @@
           <li class="nav-item" v-if="! isLoggedUser">
             <nuxt-link class="nav-link" to="login">Iniciar Sesión</nuxt-link>
           </li>
+        </b-navbar-nav>
 
-          <li class="nav-item" v-if="isLoggedUser">
-            <nuxt-link class="nav-link" to="profile">Mi Perfil</nuxt-link>
-          </li>
-
-          <li class="nav-item" v-if="isLoggedUser">
-            <a href="#" class="nav-link" v-on:click="logout">Cerrar Sesión</a>
-          </li>
-        </ul>
-
-      </div>
-    </nav>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto" v-if="isLoggedUser">
+          <b-nav-item-dropdown text="Kennit Ruz" right>
+            <li>
+              <nuxt-link class="nav-link" to="profile">Mi Perfil</nuxt-link>
+            </li>
+            <li>
+              <a href="#" class="nav-link" v-on:click="logout">Cerrar Sesión</a>
+            </li>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
 
     <nuxt/>
 

@@ -7,12 +7,32 @@ export const state = () => ({
         email: null,
         image: null,
         token: null,
+        gender: null,
     }
 })
 
 export const getters = {
     isLoggedUser(state) {
         return state.user.id !== null
+    },
+    getFullName(state) {
+        return state.user.firstName + ' ' + state.user.lastName
+    },
+    getEmail(state) {
+        return state.user.email
+    },
+    getUsername(state) {
+        return state.user.username
+    },
+    getImage(state) {
+        return state.user.image
+    },
+    getGender(state) {
+        if (state.user.gender === 'female') {
+            return 'Femenino'
+        }
+
+        return 'Masculino'
     }
 }
 
