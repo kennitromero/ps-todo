@@ -32,43 +32,7 @@ export default {
     }
   },
   methods: {
-    saveTask: function () {
-      if (this.editingTask) {
-        this.tasks[this.editIndexTask] = this.tempTask
 
-        this.editingTask = false
-        this.editIndexTask = null
-
-        this.showMessage('Tarea actualizada.')
-      } else {
-        this.tasks.push(this.tempTask)
-      }
-
-      this.tempTask = defaultTask
-    },
-    editTask: function (index) {
-      this.editingTask = true
-      this.editIndexTask = tasks
-
-      this.tempTask = this.tasks[tasks]
-      this.$refs['input-temp-task-description'].focus()
-    },
-    doneToggleTask: function (index) {
-      this.tasks[tasks].done = !this.tasks[tasks].done
-
-      if (this.tasks[tasks].done) {
-        this.showMessage(`La tarea finalizada.`);
-      }
-    },
-    deleteTask: function (index) {
-      this.tasks.splice(tasks, 1)
-
-      this.showMessage(`La tarea eliminada.`);
-    },
-    // UI methods
-    showMessage: function (message) {
-
-    }
   },
   mounted() {
     if (! this.isLoggedUser) {
