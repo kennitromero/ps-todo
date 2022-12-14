@@ -27,7 +27,12 @@ import {mapGetters} from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['getFullName', 'getEmail', 'getUsername', 'getImage', 'getGender'])
+    ...mapGetters(['getFullName', 'getEmail', 'getUsername', 'getImage', 'getGender', 'isLoggedUser'])
+  },
+  mounted() {
+    if (! this.isLoggedUser) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

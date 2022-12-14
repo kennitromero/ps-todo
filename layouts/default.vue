@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <b-navbar toggleable="lg" type="light" variant="light">
-      <nuxt-link class="navbar-brand" to="/">
+      <nuxt-link class="navbar-brand" to="/tasks">
         App ToDo
       </nuxt-link>
 
@@ -9,8 +9,8 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <li>
-            <nuxt-link class="nav-link" to="/">Inicio</nuxt-link>
+          <li v-if="isLoggedUser">
+            <nuxt-link class="nav-link" to="/tasks">Inicio</nuxt-link>
           </li>
 
           <li class="nav-item" v-if="! isLoggedUser">
