@@ -33,6 +33,9 @@ export const getters = {
         }
 
         return 'Masculino'
+    },
+    getUserID(state) {
+        return state.user.id
     }
 }
 
@@ -70,10 +73,11 @@ export const actions = {
             }
         }
     },
-    async getTodosByUserID(context, userID) {
+    async getTodosByUserIDAction(context, userID) {
         try {
-            const r = await this.$axios.get('todos/user/5')
-            return r.data
+            const response = await this.$axios.
+            get('todos/user/' + userID)
+            return response.data.todos
         } catch (err) {
             return 'ERROR'
         }

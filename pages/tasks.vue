@@ -1,10 +1,10 @@
 <template>
-
   <div class="row justify-content-center">
     <div class="col-lg-12 col-xs-12 mt-3">
       <ul class="list-group">
-        <li class="list-group-item">
-
+        <li class="list-group-item"
+            v-for="tempTask in tasks">
+          {{ tempTask.todo }}
         </li>
       </ul>
     </div>
@@ -16,7 +16,7 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['isLoggedUser'])
+    ...mapGetters(['isLoggedUser', 'getUserID'])
   },
   data() {
     return {
@@ -24,14 +24,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTodosByUserID'])
+    ...mapActions(['getTodosByUserIDAction'])
   },
-  mounted() {
+  // mounted(), esta función se ejecuta al cargar la página de tasks (tareas)
+  async mounted() {
     if (! this.isLoggedUser) {
-      this.$router.push('/login')
+      await this.$router.push('/login')
     }
 
-    //this.getTodosByUserID()
+    this.tasks = await this.getTodosByUserIDAction(this.getUserID)
   }
 }
 </script>
