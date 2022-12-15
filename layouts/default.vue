@@ -10,7 +10,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <li v-if="isLoggedUser">
-            <nuxt-link class="nav-link" to="/tasks">Inicio</nuxt-link>
+            <nuxt-link class="nav-link" to="/tasks">Tareas</nuxt-link>
           </li>
 
           <li class="nav-item" v-if="! isLoggedUser">
@@ -24,7 +24,7 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" v-if="isLoggedUser">
-          <b-nav-item-dropdown text="Kennit Ruz" right>
+          <b-nav-item-dropdown :text="getFullName" right>
             <li>
               <nuxt-link class="nav-link" to="profile">Mi Perfil</nuxt-link>
             </li>
@@ -49,7 +49,7 @@ import {mapMutations, mapGetters} from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['isLoggedUser'])
+    ...mapGetters(['isLoggedUser', 'getFullName'])
   },
   methods: {
     ...mapMutations(['setDefaultUser']),

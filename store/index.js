@@ -69,5 +69,13 @@ export const actions = {
                 return 'ERROR'
             }
         }
+    },
+    async getTodosByUserID(context, userID) {
+        try {
+            const r = await this.$axios.get('todos/user/5')
+            return r.data
+        } catch (err) {
+            return 'ERROR'
+        }
     }
 }
