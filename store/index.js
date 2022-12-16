@@ -75,9 +75,26 @@ export const actions = {
     },
     async getTodosByUserIDAction(context, userID) {
         try {
-            const response = await this.$axios.
-            get('todos/user/' + userID)
+            const response = await this.$axios.get('todos/user/' + userID)
             return response.data.todos
+        } catch (err) {
+            return 'ERROR'
+        }
+    },
+    async createTaskAction(context, newTask) {
+        try {
+            const response = await this.$axios
+                .post('/todos/add', newTask)
+            return response.data
+        } catch (err) {
+            return 'ERROR'
+        }
+    },
+    async deleteTaskAction(context, taskID) {
+        try {
+            const response = await this.$axios
+                .delete('/todos/' + taskID)
+            return 'OK'
         } catch (err) {
             return 'ERROR'
         }
